@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace Code9MVC.DAL
 {
-    public class CountryInitializer : DropCreateDatabaseIfModelChanges<CountryContext>
+    public class CountryInitializer : DropCreateDatabaseAlways<CountryContext>
     {
         protected override void Seed(CountryContext context)
         {
@@ -17,7 +17,7 @@ namespace Code9MVC.DAL
                     Area = 77474,
                     Currency = "Serbian dinar",
                     ShortName = "RS",
-                    FlagImageFilePath = "serbia.jpg",
+                    FlagImageFilePath = "serbia.GIF",
                     Cities = new List<City>
                     {
                         new City
@@ -38,7 +38,7 @@ namespace Code9MVC.DAL
                     Area = 8515767d,
                     Currency = "real",
                     ShortName = "BR",
-                    FlagImageFilePath = "brasil.jpg",
+                    FlagImageFilePath = "brazil.GIF",
                     Cities = new List<City>
                     {
                         new City
@@ -59,7 +59,7 @@ namespace Code9MVC.DAL
                     Area = 377972.28,
                     Currency = "Yen",
                     ShortName = "JP",
-                    FlagImageFilePath = "japan.jpg",
+                    FlagImageFilePath = "japan.GIF",
                     Cities = new List<City>
                     {
                         new City

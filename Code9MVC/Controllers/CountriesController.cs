@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Code9MVC.DAL;
 using Code9MVC.Models;
+using System.IO;
 
 namespace Code9MVC.Controllers
 {
@@ -48,10 +49,15 @@ namespace Code9MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name,ShortName,Currency,Area,FlagImageFilePath")] Country country)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Name,ShortName,Currency,Area,FlagImageFilePath")] Country country, HttpPostedFileBase flag)
         {
             if (ModelState.IsValid)
             {
+                if (flag != null)
+                {
+                    flag.SaveAs(Path.Combine(Server.MapPath("~/Content/Images/Flags"), flag.FileName));
+                    country.FlagImageFilePath = flag.FileName;
+                }
                 db.Countries.Add(country);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
