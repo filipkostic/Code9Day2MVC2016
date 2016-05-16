@@ -1,0 +1,3 @@
+﻿@model IEnumerable<Code9MVC.Models.Country>
+
+@Html.DropDownList("CountryID", new SelectList(Model, "ID", "Name"), new { @class = "form-control col-md-10"})
