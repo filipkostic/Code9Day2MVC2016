@@ -123,6 +123,38 @@ namespace Code9MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<JsonResult> GetItems()
+        {
+            bool proxyEnabled = db.Configuration.ProxyCreationEnabled;
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var countries = await db.Countries.ToListAsync();
+                return Json(countries, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(ex.Message);
+            }
+            finally
+            {
+                db.Configuration.ProxyCreationEnabled = proxyEnabled;
+            }
+        }
+
+        public async Task<ActionResult> GetFlag(int? id)
+        {
+            Country country = await db.Countries.FindAsync(id);
+            if (country != null)
+            {
+                var filePath = Path.Combine(Server.MapPath("~/Content/Images/Flags"), country.FlagImageFilePath);
+                var fileData = System.IO.File.ReadAllBytes(filePath);
+                return File(fileData, System.Net.Mime.MediaTypeNames.Application.Octet, country.FlagImageFilePath);
+            }
+            return HttpNotFound();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
